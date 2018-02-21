@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
@@ -24,5 +23,4 @@ android {
 dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.jcraft:jsch:0.1.54'
-    implementation 'com.hierynomus:sshj:0.23.0'
 }

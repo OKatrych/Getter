@@ -10,7 +10,7 @@ import eu.warble.getter.utils.AppExecutors
 import eu.warble.getter.utils.Converter
 import eu.warble.getter.utils.FileManager
 import java.io.File
-import java.util.*
+import java.util.Vector
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -21,7 +21,7 @@ object Getter {
     private lateinit var session: Session
     private lateinit var channelSFTP: ChannelSftp
     private val downloadingQueue: BlockingQueue<GetterFile>
-    private var currentPath: String = ""
+    var currentPath: String = ""
 
     init {
         downloadingQueue = LinkedBlockingQueue<GetterFile>()
@@ -32,16 +32,20 @@ object Getter {
      */
     fun init(serverURL: String, credentials: Credentials,
              onSuccess: () -> Unit, onFailure: (exception: Throwable) -> Unit) {
-        this.serverURL = serverURL
-        this.credentials = credentials
-        AppExecutors.NETWORK().execute {
-            try {
-                session = startNewSession()
-                channelSFTP = openSftpChannel(session)
-                AppExecutors.MAIN().execute(onSuccess)
-            } catch (ex: Exception) {
-                AppExecutors.MAIN().execute { onFailure(ex) }
+        if (!isGetterInitialized(serverURL, credentials)) {
+            this.serverURL = serverURL
+            this.credentials = credentials
+            AppExecutors.NETWORK().execute {
+                try {
+                    session = startNewSession()
+                    channelSFTP = openSftpChannel(session)
+                    AppExecutors.MAIN().execute(onSuccess)
+                } catch (ex: Exception) {
+                    AppExecutors.MAIN().execute { onFailure(ex) }
+                }
             }
+        } else {
+            AppExecutors.MAIN().execute(onSuccess)
         }
     }
 
@@ -142,5 +146,9 @@ object Getter {
         } catch (ex: Exception) {
             onFailure(ex)
         }
+    }
+
+    private fun isGetterInitialized(serverURL: String, credentials: Credentials): Boolean {
+        return this.serverURL == serverURL && this.credentials == credentials
     }
 }

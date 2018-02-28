@@ -16,8 +16,8 @@ import java.util.concurrent.LinkedBlockingQueue
 
 
 object Getter {
-    private lateinit var serverURL: String
-    private lateinit var credentials: Credentials
+    private var serverURL: String
+    private var credentials: Credentials
     private lateinit var session: Session
     private lateinit var channelSFTP: ChannelSftp
     private val downloadingQueue: BlockingQueue<GetterFile>
@@ -25,6 +25,8 @@ object Getter {
 
     init {
         downloadingQueue = LinkedBlockingQueue<GetterFile>()
+        serverURL = "DEFAULT"
+        credentials = Credentials("", "")
     }
 
     /**

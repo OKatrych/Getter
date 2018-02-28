@@ -8,6 +8,7 @@ class GetterProgressMonitor(private val callback: DownloadCallback) : SftpProgre
     private var maxBytes = -1L
     private var currBytes = -1L
     private var lastProgress = 0
+    private var destinationDirectory = ""
 
     /**
      * Will be called when a new operation starts.
@@ -15,10 +16,11 @@ class GetterProgressMonitor(private val callback: DownloadCallback) : SftpProgre
      * @param dest - the destination file name.
      * @param max - the final count (i.e. length of file to transfer).
      */
-    override fun init(op: Int, src: String?, dest: String?, max: Long) {
+    override fun init(op: Int, src: String, dest: String, max: Long) {
         maxBytes = max
         currBytes = max
         lastProgress = 0
+        destinationDirectory = dest
     }
 
     /**
@@ -41,7 +43,9 @@ class GetterProgressMonitor(private val callback: DownloadCallback) : SftpProgre
      *  or because the transfer was cancelled.
      */
     override fun end() {
-        AppExecutors.MAIN().execute(callback::onEnd)
+        AppExecutors.MAIN().execute({
+            callback.onFinish(destinationDirectory)
+        })
     }
 
 }

@@ -143,7 +143,13 @@ object Getter {
 
     private fun tryRestartSession(onSuccess: () -> Unit, onFailure: (exception: Throwable) -> Unit) {
         try {
-            startNewSession()
+            if (session.isConnected) {
+                session.disconnect()
+                if (channelSFTP.isConnected)
+                    channelSFTP.exit()
+            }
+            session = startNewSession()
+            channelSFTP = openSftpChannel(session)
             onSuccess()
         } catch (ex: Exception) {
             onFailure(ex)

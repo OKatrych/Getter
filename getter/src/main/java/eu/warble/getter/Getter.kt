@@ -9,7 +9,6 @@ import eu.warble.getter.model.GetterFile
 import eu.warble.getter.utils.AppExecutors
 import eu.warble.getter.utils.Converter
 import eu.warble.getter.utils.FileManager
-import java.io.File
 import java.util.Vector
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
@@ -89,7 +88,6 @@ object Getter {
     }
 
     fun loadDirectory(directory: GetterFile, callback: LoadDirectoryCallback) {
-        if (!directory.isDirectory()) callback.onError("Given file is not a directory")
         AppExecutors.NETWORK().execute {
             try {
                 if (!checkInMainDirectory(directory.path)) {
@@ -113,7 +111,6 @@ object Getter {
     }
 
     fun loadDirectory(path: String, callback: LoadDirectoryCallback) {
-        if (!File(path).isDirectory) callback.onError("Given file is not a directory")
         AppExecutors.NETWORK().execute {
             try {
                 if (!checkInMainDirectory(path)) {

@@ -13,6 +13,6 @@ allprojects {
 **Step 2.** Add the dependency
 ```
 dependencies {
-    compile 'com.github.Warble98:Getter:0.1.1'
+    compile 'com.github.Warble98:Getter:0.1.7'
 }
 ```

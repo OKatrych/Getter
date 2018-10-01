@@ -155,5 +155,6 @@ object Getter {
 
     private fun isGetterInitialized(serverURL: String, credentials: Credentials): Boolean {
         return this.serverURL == serverURL && this.credentials == credentials
+                && ::session.isInitialized && ::channelSFTP.isInitialized
     }
 }

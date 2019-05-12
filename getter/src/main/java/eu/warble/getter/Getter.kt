@@ -10,20 +10,15 @@ import eu.warble.getter.utils.AppExecutors
 import eu.warble.getter.utils.Converter
 import eu.warble.getter.utils.FileManager
 import java.util.Vector
-import java.util.concurrent.BlockingQueue
-import java.util.concurrent.LinkedBlockingQueue
-
 
 object Getter {
     private var serverURL: String
     private var credentials: Credentials
     private lateinit var session: Session
     private lateinit var channelSFTP: ChannelSftp
-    private val downloadingQueue: BlockingQueue<GetterFile>
     var currentPath: String = ""
 
     init {
-        downloadingQueue = LinkedBlockingQueue<GetterFile>()
         serverURL = "DEFAULT"
         credentials = Credentials("", "")
     }

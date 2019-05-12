@@ -13,6 +13,6 @@ allprojects {
 **Step 2.** Add the dependency
 ```
 dependencies {
-    compile 'com.github.Warble98:Getter:0.1.7'
+    implementation 'com.github.OKatrych:Getter:0.1.7'
 }
 ```

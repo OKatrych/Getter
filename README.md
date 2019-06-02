@@ -13,6 +13,6 @@ allprojects {
 **Step 2.** Add the dependency
 ```
 dependencies {
-    implementation 'com.github.OKatrych:Getter:0.1.7'
+    implementation 'com.github.OKatrych:Getter:0.1.8'
 }
 ```
